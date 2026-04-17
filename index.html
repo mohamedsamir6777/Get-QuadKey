@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUADK — Find Your Lead Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--brown:#2d2420;--tan:#b8956a;--tan-light:#f5ede3;--tan-mid:#e8d5be;--brown-light:#4a3b35}
+  html,body{min-height:100%;background:#f0ebe4;font-family:'Inter',sans-serif;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px 48px}
+  .app{width:100%;max-width:440px;background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 8px 40px rgba(45,36,32,0.13);display:flex;flex-direction:column}
+  .logo-bar{padding:20px 24px 14px;display:flex;flex-direction:column;align-items:center;border-bottom:0.5px solid #f0e8de;background:#fff}
+  .logo-row{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+  .logo-circle{width:40px;height:40px;border:4.5px solid var(--brown);border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .logo-text{display:flex;flex-direction:column}
+  .logo-name{font-size:21px;font-weight:700;color:var(--brown);letter-spacing:2.5px;line-height:1}
+  .logo-name span{color:var(--tan)}
+  .logo-tagline{font-size:7px;letter-spacing:1.8px;color:var(--tan);font-weight:600;text-transform:uppercase;margin-top:3px}
+  .prog-label{font-size:11px;color:#9ca3af;font-weight:500;margin-bottom:7px;text-align:center}
+  .progress-track{display:flex;gap:3px;width:100%}
+  .pdot{height:4px;flex:1;border-radius:10px;background:#ede5db;transition:background 0.4s}
+  .pdot.done,.pdot.active{background:var(--tan)}
+  .screen{flex:1;padding:30px 24px 26px;display:none;flex-direction:column;animation:fi 0.32s ease;min-height:480px}
+  .screen.active{display:flex}
+  @keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .q-title{font-size:19px;font-weight:700;color:var(--brown);line-height:1.3;margin-bottom:7px;text-align:center}
+  .q-sub{font-size:13px;color:#7c6b60;text-align:center;margin-bottom:22px;line-height:1.55}
+  .options{display:flex;flex-direction:column;gap:11px;flex:1}
+  .opt{display:flex;align-items:center;gap:14px;padding:15px 16px;background:#fff;border:1.5px solid #e8ddd4;border-radius:14px;cursor:pointer;transition:all 0.2s;font-size:14px;font-weight:500;color:var(--brown);-webkit-tap-highlight-color:transparent}
+  .opt:hover{border-color:var(--tan);background:var(--tan-light)}
+  .opt.selected{border-color:var(--tan);background:var(--tan-light)}
+  .opt-icon{font-size:20px;width:28px;text-align:center;flex-shrink:0}
+  .opt-text{flex:1}
+  .opt-sub{font-size:11px;color:#9c836d;font-weight:400;margin-top:1px}
+  .opt-check{width:20px;height:20px;border-radius:50%;border:1.5px solid #d1c4b8;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s}
+  .opt.selected .opt-check{background:var(--tan);border-color:var(--tan)}
+  .opt.selected .opt-check::after{content:'';width:7px;height:7px;background:#fff;border-radius:50%;display:block}
+  .trans-screen{align-items:center;justify-content:center;text-align:center}
+  .trans-avatar{width:110px;height:110px;border-radius:50%;background:var(--tan-light);margin:0 auto 22px;display:flex;align-items:center;justify-content:center;font-size:54px;line-height:1}
+  .trans-title{font-size:21px;font-weight:700;color:var(--brown);margin-bottom:10px;line-height:1.3}
+  .trans-body{font-size:14px;color:#6b5a52;line-height:1.65;max-width:320px;margin:0 auto 22px}
+  .trans-body strong{color:var(--brown);font-weight:600}
+  .highlight-row{display:flex;gap:10px;width:100%;margin-bottom:8px}
+  .highlight{background:var(--tan-light);border:1.5px solid var(--tan-mid);border-radius:14px;padding:14px 10px;flex:1;text-align:center}
+  .hl-num{font-size:28px;font-weight:700;color:var(--tan);display:block;margin-bottom:2px}
+  .hl-label{font-size:11px;color:var(--brown);font-weight:500}
+  .hl-sub{font-size:10px;color:#9c836d;margin-top:3px}
+  .trust-screen{align-items:center;text-align:center}
+  .trust-title{font-size:20px;font-weight:700;color:var(--brown);margin-bottom:18px;line-height:1.3}
+  .trust-card{background:var(--tan-light);border:0.5px solid var(--tan-mid);border-radius:16px;padding:20px;margin-bottom:14px;width:100%}
+  .trust-quote-icon{font-size:28px;color:var(--tan);margin-bottom:8px;font-weight:700;font-family:Georgia,serif;display:block}
+  .trust-text{font-size:13px;color:#5a4a42;line-height:1.6;margin-bottom:12px}
+  .trust-text strong{color:var(--brown);font-weight:600}
+  .trust-link{display:inline-block;font-size:13px;font-weight:600;color:var(--tan);text-decoration:none;border-bottom:1.5px solid var(--tan);padding-bottom:1px}
+  .sample-row{display:flex;flex-direction:column;gap:10px;margin-bottom:4px;width:100%}
+  .sample-card{background:#fff;border:0.5px solid #e8ddd4;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color 0.2s;text-decoration:none}
+  .sample-card:hover{border-color:var(--tan)}
+  .sample-icon{width:36px;height:36px;border-radius:50%;background:var(--tan-light);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+  .sample-info{text-align:left;flex:1}
+  .sample-title{font-size:13px;font-weight:600;color:var(--brown)}
+  .sample-desc{font-size:11px;color:#9c836d;margin-top:2px}
+  .play-btn{width:28px;height:28px;border-radius:50%;background:var(--tan);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .booking-screen{align-items:center;text-align:center}
+  .booking-icon{width:72px;height:72px;border-radius:18px;background:var(--tan-light);margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
+  .booking-icon svg{width:36px;height:36px}
+  .booking-title{font-size:20px;font-weight:700;color:var(--brown);margin-bottom:8px;line-height:1.3}
+  .booking-sub{font-size:13px;color:#7c6b60;line-height:1.6;margin-bottom:18px;max-width:300px}
+  .summary-box{width:100%;background:var(--tan-light);border:0.5px solid var(--tan-mid);border-radius:14px;padding:14px 16px;margin-bottom:20px}
+  .summary-row{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;font-size:12px}
+  .summary-row:not(:last-child){border-bottom:0.5px solid var(--tan-mid)}
+  .summary-key{color:#7c6b60;font-weight:400}
+  .summary-val{color:var(--brown);font-weight:600;text-align:right;max-width:58%;line-height:1.3}
+  .btn-wrap{margin-top:auto;padding-top:18px}
+  .main-btn{width:100%;padding:15px;background:var(--brown);color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background 0.2s,transform 0.15s;letter-spacing:0.1px}
+  .main-btn:hover{background:var(--brown-light);transform:translateY(-1px)}
+  .main-btn:active{transform:translateY(0)}
+  .main-btn.tan{background:var(--tan)}
+  .main-btn.tan:hover{background:#a07a58}
+  .skip-link{text-align:center;margin-top:12px;font-size:12px;color:#b0a098}
+  @media(max-width:480px){html,body{padding:0;align-items:flex-start}.app{border-radius:0;min-height:100vh;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <div class="logo-bar">
+    <div class="logo-row">
+      <div class="logo-circle">
+        <svg width="20" height="18" viewBox="0 0 20 18" fill="none">
+          <path d="M10 2L2 8.5V17h5v-5h6v5h5V8.5L10 2z" fill="#2d2420"/>
+          <rect x="8" y="8" width="4" height="4" fill="#b8956a"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <div class="logo-name">QUAD<span>K</span></div>
+        <div class="logo-tagline">Where every deal falls into place</div>
+      </div>
+    </div>
+    <div style="width:100%">
+      <div class="prog-label" id="step-label">Step 1 of 7</div>
+      <div class="progress-track">
+        <div class="pdot active" id="d0"></div>
+        <div class="pdot" id="d1"></div>
+        <div class="pdot" id="d2"></div>
+        <div class="pdot" id="d3"></div>
+        <div class="pdot" id="d4"></div>
+        <div class="pdot" id="d5"></div>
+        <div class="pdot" id="d6"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 0: How many deals -->
+  <div class="screen active" id="s0">
+    <div class="q-title">How many deals do you want to close per month?</div>
+    <div class="q-sub">We'll calculate exactly how many leads and agents you'll need.</div>
+    <div class="options">
+      <div class="opt" onclick="selectDeals(this,1)">
+        <span class="opt-icon">🏠</span>
+        <div style="flex:1"><div class="opt-text">1 deal / month</div><div class="opt-sub">Getting started</div></div>
+        <span class="opt-check"></span>
+      </div>
+      <div class="opt" onclick="selectDeals(this,2)">
+        <span class="opt-icon">🏡</span>
+        <div style="flex:1"><div class="opt-text">2 deals / month</div><div class="opt-sub">Growing steadily</div></div>
+        <span class="opt-check"></span>
+      </div>
+      <div class="opt" onclick="selectDeals(this,4)">
+        <span class="opt-icon">🏘️</span>
+        <div style="flex:1"><div class="opt-text">3–4 deals / month</div><div class="opt-sub">Serious pipeline</div></div>
+        <span class="opt-check"></span>
+      </div>
+      <div class="opt" onclick="selectDeals(this,5)">
+        <span class="opt-icon">👑</span>
+        <div style="flex:1"><div class="opt-text">5+ deals / month</div><div class="opt-sub">Full scale operation</div></div>
+        <span class="opt-check"></span>
+      </div>
+    </div>
+    <div class="btn-wrap">
+      <button class="main-btn" onclick="goToCalc()">Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 1: Calculation result -->
+  <div class="screen trans-screen" id="s1">
+    <div class="trans-avatar">📊</div>
+    <div class="trans-title">Here's your custom plan</div>
+    <div class="trans-body" id="calc-body">Loading your numbers...</div>
+    <div class="highlight-row">
+      <div class="highlight">
+        <span class="hl-num" id="calc-deals">0</span>
+        <div class="hl-label">Deals / month</div>
+        <div class="hl-sub">your goal</div>
+      </div>
+      <div class="highlight">
+        <span class="hl-num" id="calc-leads">0</span>
+        <div class="hl-label">Leads needed</div>
+        <div class="hl-sub">per month</div>
+      </div>
+      <div class="highlight">
+        <span class="hl-num" id="calc-agents">0</span>
+        <div class="hl-label">Agents required</div>
+        <div class="hl-sub">to hit your goal</div>
+      </div>
+    </div>
+    <div class="btn-wrap" style="width:100%">
+      <button class="main-btn tan" onclick="nextStep(2)">That works for me — continue</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Target state -->
+  <div class="screen" id="s2">
+    <div class="q-title">Which US state are you targeting?</div>
+    <div class="q-sub">We'll focus your calling agents on the right market.</div>
+    <div class="options">
+      <div class="opt" onclick="selectOpt(this,'state','Texas')"><span class="opt-icon">🤠</span><span class="opt-text">Texas</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'state','Florida')"><span class="opt-icon">🌴</span><span class="opt-text">Florida</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'state','California')"><span class="opt-icon">☀️</span><span class="opt-text">California</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'state','New York')"><span class="opt-icon">🗽</span><span class="opt-text">New York</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'state','Virginia')"><span class="opt-icon">🏛️</span><span class="opt-text">Virginia</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'state','Other / Multiple States')"><span class="opt-icon">🗺️</span><span class="opt-text">Other / Multiple States</span><span class="opt-check"></span></div>
+    </div>
+    <div class="btn-wrap"><button class="main-btn" onclick="nextStep(3)">Next</button></div>
+  </div>
+
+  <!-- STEP 3: Property type -->
+  <div class="screen" id="s3">
+    <div class="q-title">What type of real estate leads do you need?</div>
+    <div class="q-sub">Our agents specialize in different lead categories.</div>
+    <div class="options">
+      <div class="opt" onclick="selectOpt(this,'type','Seller leads (listings)')"><span class="opt-icon">🏷️</span><span class="opt-text">Seller leads (listings)</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'type','Buyer leads')"><span class="opt-icon">🔑</span><span class="opt-text">Buyer leads</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'type','Investor / Off-market')"><span class="opt-icon">💼</span><span class="opt-text">Investor / Off-market</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'type','Both buyers & sellers')"><span class="opt-icon">🤝</span><span class="opt-text">Both buyers & sellers</span><span class="opt-check"></span></div>
+    </div>
+    <div class="btn-wrap"><button class="main-btn" onclick="nextStep(4)">Next</button></div>
+  </div>
+
+  <!-- STEP 4: Trust -->
+  <div class="screen trust-screen" id="s4">
+    <div class="trust-title">Hear our agents in action</div>
+    <div class="trust-card">
+      <span class="trust-quote-icon">"</span>
+      <div class="trust-text">Every lead our agents deliver is <strong>live-called, pre-screened, and genuinely interested</strong> — no cold lists, no recycled contacts. Hear it yourself:</div>
+      <a class="trust-link" href="https://quadkeyva.com" target="_blank">Listen to real calling samples →</a>
+    </div>
+    <div class="sample-row">
+      <a class="sample-card" href="https://quadkeyva.com" target="_blank">
+        <div class="sample-icon">🎙️</div>
+        <div class="sample-info"><div class="sample-title">Seller lead call — Texas</div><div class="sample-desc">Live cold call · real sample</div></div>
+        <div class="play-btn"><svg width="10" height="12" viewBox="0 0 10 12" fill="white"><path d="M0 0l10 6-10 6V0z"/></svg></div>
+      </a>
+      <a class="sample-card" href="https://quadkeyva.com" target="_blank">
+        <div class="sample-icon">🎙️</div>
+        <div class="sample-info"><div class="sample-title">Buyer lead call — Florida</div><div class="sample-desc">Live cold call · real sample</div></div>
+        <div class="play-btn"><svg width="10" height="12" viewBox="0 0 10 12" fill="white"><path d="M0 0l10 6-10 6V0z"/></svg></div>
+      </a>
+    </div>
+    <div class="btn-wrap" style="width:100%">
+      <button class="main-btn tan" onclick="nextStep(5)">Continue</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Challenge -->
+  <div class="screen" id="s5">
+    <div class="q-title">What's your biggest challenge right now?</div>
+    <div class="q-sub">Be honest — this helps us tailor the right solution for you.</div>
+    <div class="options">
+      <div class="opt" onclick="selectOpt(this,'challenge','Not generating enough leads')"><span class="opt-icon">📭</span><span class="opt-text">Not generating enough leads</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'challenge','Leads are unqualified or cold')"><span class="opt-icon">🎯</span><span class="opt-text">Leads are unqualified or cold</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'challenge','No time to do my own calling')"><span class="opt-icon">⏰</span><span class="opt-text">No time to do my own calling</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'challenge','I want to scale faster')"><span class="opt-icon">🚀</span><span class="opt-text">I want to scale faster</span><span class="opt-check"></span></div>
+    </div>
+    <div class="btn-wrap"><button class="main-btn" onclick="nextStep(6)">Next</button></div>
+  </div>
+
+  <!-- STEP 6: Timeline -->
+  <div class="screen" id="s6">
+    <div class="q-title">How soon do you want to get started?</div>
+    <div class="q-sub">We'll prioritize your onboarding accordingly.</div>
+    <div class="options">
+      <div class="opt" onclick="selectOpt(this,'timeline','As soon as possible')"><span class="opt-icon">⚡</span><span class="opt-text">As soon as possible</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'timeline','Within the next 2 weeks')"><span class="opt-icon">📅</span><span class="opt-text">Within the next 2 weeks</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'timeline','Within the next month')"><span class="opt-icon">🗓️</span><span class="opt-text">Within the next month</span><span class="opt-check"></span></div>
+      <div class="opt" onclick="selectOpt(this,'timeline','Just exploring for now')"><span class="opt-icon">👀</span><span class="opt-text">Just exploring for now</span><span class="opt-check"></span></div>
+    </div>
+    <div class="btn-wrap"><button class="main-btn" onclick="nextStep(7)">Next</button></div>
+  </div>
+
+  <!-- STEP 7: Booking (was step 8) -->
+  <div class="screen booking-screen" id="s7">
+    <div class="booking-icon">
+      <svg fill="none" stroke="#b8956a" stroke-width="1.8" viewBox="0 0 24 24">
+        <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+      </svg>
+    </div>
+    <div class="booking-title">Ready to fill your pipeline?</div>
+    <div class="booking-sub">Here's your custom lead strategy — we'll walk through this together on the call.</div>
+    <div class="summary-box">
+      <div class="summary-row"><span class="summary-key">Deals goal</span><span class="summary-val" id="sv-deals">—</span></div>
+      <div class="summary-row"><span class="summary-key">Leads needed / month</span><span class="summary-val" id="sv-leads">—</span></div>
+      <div class="summary-row"><span class="summary-key">Agents required</span><span class="summary-val" id="sv-agents">—</span></div>
+      <div class="summary-row"><span class="summary-key">Target state</span><span class="summary-val" id="sv-state">—</span></div>
+      <div class="summary-row"><span class="summary-key">Lead type</span><span class="summary-val" id="sv-type">—</span></div>
+      <div class="summary-row"><span class="summary-key">Main challenge</span><span class="summary-val" id="sv-challenge">—</span></div>
+      <div class="summary-row"><span class="summary-key">Start timeline</span><span class="summary-val" id="sv-timeline">—</span></div>
+    </div>
+    <div class="btn-wrap" style="width:100%">
+      <button class="main-btn tan" onclick="openCalendly()">📅 Book My Free 30-Min Call</button>
+      <div class="skip-link">No commitment · 100% free · quadkeyva.com</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzGpx56mfgvOmReIQrgGGXBl6wcFmH6aftPnn-oCYJgPKH-ZS6bckc_xGLlqZDL-xeb/exec';
+
+  const STEP_NAMES = {
+    0: 'Step 1 — Deals goal',
+    1: 'Step 2 — Saw lead calculation',
+    2: 'Step 3 — Target state',
+    3: 'Step 4 — Lead type',
+    4: 'Step 5 — Heard samples',
+    5: 'Step 6 — Challenge',
+    6: 'Step 7 — Timeline',
+    7: 'Step 8 — Booking (completed)'
+  };
+
+  const answers = {dealCount: 1, dealLabel: '1 deal / month'};
+  let currentStep = 0;
+  const totalDots = 7;
+
+  function track(stepIndex, completed) {
+    const deals = answers.dealCount || 1;
+    const payload = {
+      dealLabel:   answers.dealLabel  || '—',
+      leads:       deals * 50,
+      agents:      deals * 2,
+      state:       answers.state      || '—',
+      type:        answers.type       || '—',
+      challenge:   answers.challenge  || '—',
+      timeline:    answers.timeline   || '—',
+      stepLabel:   STEP_NAMES[stepIndex] || ('Step ' + (stepIndex + 1)),
+      completed:   !!completed
+    };
+    fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    }).catch(function(){});
+  }
+
+  function selectOpt(el, key, val) {
+    el.closest('.options').querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected')});
+    el.classList.add('selected');
+    answers[key] = val;
+  }
+
+  function selectDeals(el, count) {
+    el.closest('.options').querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected')});
+    el.classList.add('selected');
+    answers.dealCount = count;
+    answers.dealLabel = el.querySelector('.opt-text').textContent;
+  }
+
+  function goToCalc() {
+    var deals = answers.dealCount || 1;
+    var leads = deals * 50;
+    var agents = deals * 2;
+    document.getElementById('calc-deals').textContent = deals;
+    document.getElementById('calc-leads').textContent = leads;
+    document.getElementById('calc-agents').textContent = agents;
+    document.getElementById('calc-body').innerHTML =
+      'To close <strong>' + deals + ' deal' + (deals > 1 ? 's' : '') + ' per month</strong>, you need <strong>' +
+      leads + ' qualified leads</strong> — which requires <strong>' + agents + ' dedicated calling agent' +
+      (agents > 1 ? 's' : '') + '</strong>. We\'ve got you covered.';
+    track(0, false);
+    nextStep(1);
+  }
+
+  function nextStep(to) {
+    document.getElementById('s' + currentStep).classList.remove('active');
+    document.getElementById('s' + to).classList.add('active');
+    currentStep = to;
+    updateProgress();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+    track(to, to === 7);
+    if (to === 7) fillSummary();
+  }
+
+  function updateProgress() {
+    var h = Math.min(currentStep + 1, totalDots);
+    document.getElementById('step-label').textContent = 'Step ' + h + ' of ' + totalDots;
+    for (var i = 0; i < totalDots; i++) {
+      var d = document.getElementById('d' + i);
+      if (!d) continue;
+      d.classList.remove('active', 'done');
+      if (i < currentStep) d.classList.add('done');
+      else if (i === currentStep) d.classList.add('active');
+    }
+  }
+
+  function fillSummary() {
+    var deals = answers.dealCount || 1;
+    var leads = deals * 50;
+    var agents = deals * 2;
+    document.getElementById('sv-deals').textContent  = answers.dealLabel || '—';
+    document.getElementById('sv-leads').textContent  = leads + ' leads / month';
+    document.getElementById('sv-agents').textContent = agents + ' agent' + (agents > 1 ? 's' : '');
+    document.getElementById('sv-state').textContent  = answers.state     || '—';
+    document.getElementById('sv-type').textContent   = answers.type      || '—';
+    document.getElementById('sv-challenge').textContent = answers.challenge || '—';
+    document.getElementById('sv-timeline').textContent  = answers.timeline  || '—';
+  }
+
+  function openCalendly() {
+    track(7, true);
+    window.open('https://calendly.com/quadkeyva-info/30min', '_blank');
+  }
+</script>
+</body>
+</html>
