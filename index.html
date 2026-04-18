@@ -70,7 +70,6 @@ html,body{min-height:100%;background:var(--bg);font-family:'Inter',sans-serif;di
 </head>
 <body>
 <div class="app">
-
   <div class="logo-bar">
     <div class="logo-row">
       <div class="logo-dot"></div>
@@ -94,61 +93,27 @@ html,body{min-height:100%;background:var(--bg);font-family:'Inter',sans-serif;di
   <!-- STEP 1: Challenge -->
   <div class="screen active" id="s0">
     <div class="q-intro">What's your <strong>biggest challenge</strong> right now? Be honest — this helps us tailor the right solution.</div>
-    <div class="options">
-      <button class="opt" onclick="selectOpt(this,'challenge','Not generating enough leads',1)"><span class="opt-icon">📭</span><span class="opt-text">Not generating enough leads</span></button>
-      <button class="opt" onclick="selectOpt(this,'challenge','Leads are unqualified or cold',1)"><span class="opt-icon">🎯</span><span class="opt-text">Leads are unqualified or cold</span></button>
-      <button class="opt" onclick="selectOpt(this,'challenge','No time to do my own calling',1)"><span class="opt-icon">⏰</span><span class="opt-text">No time to do my own calling</span></button>
-      <button class="opt" onclick="selectOpt(this,'challenge','I want to scale faster',1)"><span class="opt-icon">🚀</span><span class="opt-text">I want to scale faster</span></button>
-    </div>
+    <div class="options" id="opts0"></div>
   </div>
 
   <!-- STEP 2: Target state -->
   <div class="screen" id="s1">
     <div class="q-intro">Which <strong>US state</strong> are you targeting? We'll focus your calling agents on the right market.</div>
-    <div class="options">
-      <button class="opt" onclick="selectOpt(this,'state','Texas',2)"><span class="opt-icon">🤠</span><span class="opt-text">Texas</span></button>
-      <button class="opt" onclick="selectOpt(this,'state','Florida',2)"><span class="opt-icon">🌴</span><span class="opt-text">Florida</span></button>
-      <button class="opt" onclick="selectOpt(this,'state','California',2)"><span class="opt-icon">☀️</span><span class="opt-text">California</span></button>
-      <button class="opt" onclick="selectOpt(this,'state','New York',2)"><span class="opt-icon">🗽</span><span class="opt-text">New York</span></button>
-      <button class="opt" onclick="selectOpt(this,'state','Virginia',2)"><span class="opt-icon">🏛️</span><span class="opt-text">Virginia</span></button>
-      <button class="opt" onclick="selectOpt(this,'state','Other / Multiple States',2)"><span class="opt-icon">🗺️</span><span class="opt-text">Other / Multiple States</span></button>
-    </div>
+    <div class="options" id="opts1"></div>
     <div class="btn-row"><button class="back-btn" onclick="goBack()">← Back</button></div>
   </div>
 
   <!-- STEP 3: How many deals -->
   <div class="screen" id="s2">
     <div class="q-intro">How many deals do you want to <strong>close per month?</strong> We'll calculate exactly how many leads and agents you'll need.</div>
-    <div class="options">
-      <button class="opt" onclick="selectDeals(this,1,3)">
-        <span class="opt-icon">🏠</span>
-        <div style="flex:1"><div class="opt-text">1 deal / month</div><div class="opt-sub">Getting started</div></div>
-      </button>
-      <button class="opt" onclick="selectDeals(this,2,3)">
-        <span class="opt-icon">🏡</span>
-        <div style="flex:1"><div class="opt-text">2 deals / month</div><div class="opt-sub">Growing steadily</div></div>
-      </button>
-      <button class="opt" onclick="selectDeals(this,4,3)">
-        <span class="opt-icon">🏘️</span>
-        <div style="flex:1"><div class="opt-text">3–4 deals / month</div><div class="opt-sub">Serious pipeline</div></div>
-      </button>
-      <button class="opt" onclick="selectDeals(this,5,3)">
-        <span class="opt-icon">👑</span>
-        <div style="flex:1"><div class="opt-text">5+ deals / month</div><div class="opt-sub">Full scale operation</div></div>
-      </button>
-    </div>
+    <div class="options" id="opts2"></div>
     <div class="btn-row"><button class="back-btn" onclick="goBack()">← Back</button></div>
   </div>
 
   <!-- STEP 4: Type of leads -->
   <div class="screen" id="s3">
     <div class="q-intro">What <strong>type of real estate leads</strong> do you need? Our agents specialize in different categories.</div>
-    <div class="options">
-      <button class="opt" onclick="selectOpt(this,'type','Seller leads (listings)',4)"><span class="opt-icon">🏷️</span><span class="opt-text">Seller leads (listings)</span></button>
-      <button class="opt" onclick="selectOpt(this,'type','Buyer leads',4)"><span class="opt-icon">🔑</span><span class="opt-text">Buyer leads</span></button>
-      <button class="opt" onclick="selectOpt(this,'type','Investor / Off-market',4)"><span class="opt-icon">💼</span><span class="opt-text">Investor / Off-market</span></button>
-      <button class="opt" onclick="selectOpt(this,'type','Both buyers & sellers',4)"><span class="opt-icon">🤝</span><span class="opt-text">Both buyers & sellers</span></button>
-    </div>
+    <div class="options" id="opts3"></div>
     <div class="btn-row"><button class="back-btn" onclick="goBack()">← Back</button></div>
   </div>
 
@@ -179,12 +144,7 @@ html,body{min-height:100%;background:var(--bg);font-family:'Inter',sans-serif;di
   <!-- STEP 6: How soon -->
   <div class="screen" id="s5">
     <div class="q-intro">How <strong>soon</strong> do you want to get started? We'll prioritize your onboarding accordingly.</div>
-    <div class="options">
-      <button class="opt" onclick="selectOpt(this,'timeline','As soon as possible',6)"><span class="opt-icon">⚡</span><span class="opt-text">As soon as possible</span></button>
-      <button class="opt" onclick="selectOpt(this,'timeline','Within the next 2 weeks',6)"><span class="opt-icon">📅</span><span class="opt-text">Within the next 2 weeks</span></button>
-      <button class="opt" onclick="selectOpt(this,'timeline','Within the next month',6)"><span class="opt-icon">🗓️</span><span class="opt-text">Within the next month</span></button>
-      <button class="opt" onclick="selectOpt(this,'timeline','Just exploring for now',6)"><span class="opt-icon">👀</span><span class="opt-text">Just exploring for now</span></button>
-    </div>
+    <div class="options" id="opts5"></div>
     <div class="btn-row"><button class="back-btn" onclick="goBack()">← Back</button></div>
   </div>
 
@@ -212,115 +172,144 @@ html,body{min-height:100%;background:var(--bg);font-family:'Inter',sans-serif;di
     </div>
     <div class="skip-link">No commitment · 100% free · quadkeyva.com</div>
   </div>
-
 </div>
+
 <script>
-  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbzGpx56mfgvOmReIQrgGGXBl6wcFmH6aftPnn-oCYJgPKH-ZS6bckc_xGLlqZDL-xeb/exec';
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbzGpx56mfgvOmReIQrgGGXBl6wcFmH6aftPnn-oCYJgPKH-ZS6bckc_xGLlqZDL-xeb/exec';
+var sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2,6);
+var startedAt = new Date().toLocaleString();
+var answers = {};
+var currentStep = 0;
+var navHistory = [];
+var totalDots = 7;
 
-  // Generate a unique session ID for this visitor
-  var sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-  var startedAt = new Date().toLocaleString();
+var STEP_LABELS = ['Step 1 — Challenge','Step 2 — State','Step 3 — Deals','Step 4 — Lead Type','Step 5 — Call Samples','Step 6 — Timeline','Step 7 — Booking'];
 
-  var answers = {dealCount:1, dealLabel:'1 deal / month'};
-  var currentStep = 0;
-  var history = [];
-  var totalDots = 7;
+var stepOptions = {
+  0: [
+    {icon:'📭', text:'Not generating enough leads', key:'challenge', next:1},
+    {icon:'🎯', text:'Leads are unqualified or cold', key:'challenge', next:1},
+    {icon:'⏰', text:'No time to do my own calling', key:'challenge', next:1},
+    {icon:'🚀', text:'I want to scale faster', key:'challenge', next:1}
+  ],
+  1: [
+    {icon:'🤠', text:'Texas', key:'state', next:2},
+    {icon:'🌴', text:'Florida', key:'state', next:2},
+    {icon:'☀️', text:'California', key:'state', next:2},
+    {icon:'🗽', text:'New York', key:'state', next:2},
+    {icon:'🏛️', text:'Virginia', key:'state', next:2},
+    {icon:'🗺️', text:'Other / Multiple States', key:'state', next:2}
+  ],
+  2: [
+    {icon:'🏠', text:'1 deal / month', sub:'Getting started', key:'deals', dealCount:1, next:3},
+    {icon:'🏡', text:'2 deals / month', sub:'Growing steadily', key:'deals', dealCount:2, next:3},
+    {icon:'🏘️', text:'3–4 deals / month', sub:'Serious pipeline', key:'deals', dealCount:4, next:3},
+    {icon:'👑', text:'5+ deals / month', sub:'Full scale operation', key:'deals', dealCount:5, next:3}
+  ],
+  3: [
+    {icon:'🏷️', text:'Seller leads (listings)', key:'type', next:4},
+    {icon:'🔑', text:'Buyer leads', key:'type', next:4},
+    {icon:'💼', text:'Investor / Off-market', key:'type', next:4},
+    {icon:'🤝', text:'Both buyers & sellers', key:'type', next:4}
+  ],
+  5: [
+    {icon:'⚡', text:'As soon as possible', key:'timeline', next:6},
+    {icon:'📅', text:'Within the next 2 weeks', key:'timeline', next:6},
+    {icon:'🗓️', text:'Within the next month', key:'timeline', next:6},
+    {icon:'👀', text:'Just exploring for now', key:'timeline', next:6}
+  ]
+};
 
-  var STEP_LABELS = {
-    0: 'Step 1 — Challenge',
-    1: 'Step 2 — State',
-    2: 'Step 3 — Deals',
-    3: 'Step 4 — Lead Type',
-    4: 'Step 5 — Call Samples',
-    5: 'Step 6 — Timeline',
-    6: 'Step 7 — Booking'
+Object.keys(stepOptions).forEach(function(stepIdx) {
+  var container = document.getElementById('opts' + stepIdx);
+  if (!container) return;
+  stepOptions[stepIdx].forEach(function(opt) {
+    var btn = document.createElement('button');
+    btn.className = 'opt';
+    var sub = opt.sub ? '<div class="opt-sub">'+opt.sub+'</div>' : '';
+    btn.innerHTML = '<span class="opt-icon">'+opt.icon+'</span><div style="flex:1"><div class="opt-text">'+opt.text+'</div>'+sub+'</div>';
+    btn.addEventListener('click', function() {
+      container.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
+      btn.classList.add('selected');
+      if (opt.key === 'deals') {
+        answers.dealCount = opt.dealCount;
+        answers.dealLabel = opt.text;
+      } else {
+        answers[opt.key] = opt.text;
+      }
+      setTimeout(function(){ goTo(opt.next); }, 220);
+    });
+    container.appendChild(btn);
+  });
+});
+
+function track(completed) {
+  var payload = {
+    sessionId: sessionId,
+    started:   startedAt,
+    challenge: answers.challenge || '',
+    state:     answers.state     || '',
+    deals:     answers.dealLabel || '',
+    type:      answers.type      || '',
+    timeline:  answers.timeline  || '',
+    lastStep:  STEP_LABELS[currentStep] || ('Step '+(currentStep+1)),
+    completed: !!completed
   };
+  fetch(SHEET_URL, {
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).catch(function(){});
+}
 
-  function track(completed) {
-    var deals = answers.dealCount || 1;
-    var payload = {
-      sessionId:  sessionId,
-      started:    startedAt,
-      challenge:  answers.challenge  || '',
-      state:      answers.state      || '',
-      deals:      answers.dealLabel  || '',
-      type:       answers.type       || '',
-      timeline:   answers.timeline   || '',
-      lastStep:   STEP_LABELS[currentStep] || ('Step ' + (currentStep + 1)),
-      completed:  !!completed
-    };
-    fetch(SHEET_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(payload)
-    }).catch(function(){});
+window.addEventListener('load', function(){ track(false); });
+
+function goTo(to) {
+  navHistory.push(currentStep);
+  document.getElementById('s'+currentStep).classList.remove('active');
+  document.getElementById('s'+to).classList.add('active');
+  currentStep = to;
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+  track(to === 6);
+  if (to === 6) fillSummary();
+}
+
+function goBack() {
+  if (navHistory.length === 0) return;
+  var prev = navHistory.pop();
+  document.getElementById('s'+currentStep).classList.remove('active');
+  document.getElementById('s'+prev).classList.add('active');
+  currentStep = prev;
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function updateProgress() {
+  for (var i=0; i<totalDots; i++) {
+    var d = document.getElementById('d'+i);
+    if (!d) continue;
+    d.classList.remove('active','done');
+    if (i < currentStep) d.classList.add('done');
+    else if (i === currentStep) d.classList.add('active');
   }
+}
 
-  // Fire first track when page loads (so even people who don't click appear)
-  window.addEventListener('load', function(){ track(false); });
+function fillSummary() {
+  var deals = answers.dealCount || 1;
+  document.getElementById('sv-challenge').textContent = answers.challenge || '—';
+  document.getElementById('sv-state').textContent     = answers.state     || '—';
+  document.getElementById('sv-deals').textContent     = answers.dealLabel || '—';
+  document.getElementById('sv-leads').textContent     = (deals*50)+' leads / month';
+  document.getElementById('sv-agents').textContent    = (deals*2)+' agent'+((deals*2)>1?'s':'');
+  document.getElementById('sv-type').textContent      = answers.type      || '—';
+  document.getElementById('sv-timeline').textContent  = answers.timeline  || '—';
+}
 
-  function selectOpt(el, key, val, next) {
-    el.closest('.options').querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected')});
-    el.classList.add('selected');
-    answers[key] = val;
-    setTimeout(function(){ goTo(next); }, 220);
-  }
-
-  function selectDeals(el, count, next) {
-    el.closest('.options').querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected')});
-    el.classList.add('selected');
-    answers.dealCount = count;
-    answers.dealLabel = el.querySelector('.opt-text').textContent;
-    setTimeout(function(){ goTo(next); }, 220);
-  }
-
-  function goTo(to) {
-    history.push(currentStep);
-    document.getElementById('s'+currentStep).classList.remove('active');
-    document.getElementById('s'+to).classList.add('active');
-    currentStep = to;
-    updateProgress();
-    window.scrollTo({top:0,behavior:'smooth'});
-    track(to === 6);
-    if (to === 6) fillSummary();
-  }
-
-  function goBack() {
-    if (history.length===0) return;
-    var prev = history.pop();
-    document.getElementById('s'+currentStep).classList.remove('active');
-    document.getElementById('s'+prev).classList.add('active');
-    currentStep = prev;
-    updateProgress();
-    window.scrollTo({top:0,behavior:'smooth'});
-  }
-
-  function updateProgress() {
-    for (var i=0;i<totalDots;i++) {
-      var d = document.getElementById('d'+i);
-      if (!d) continue;
-      d.classList.remove('active','done');
-      if (i<currentStep) d.classList.add('done');
-      else if (i===currentStep) d.classList.add('active');
-    }
-  }
-
-  function fillSummary() {
-    var deals = answers.dealCount || 1;
-    document.getElementById('sv-challenge').textContent = answers.challenge||'—';
-    document.getElementById('sv-state').textContent     = answers.state||'—';
-    document.getElementById('sv-deals').textContent     = answers.dealLabel||'—';
-    document.getElementById('sv-leads').textContent     = (deals*50)+' leads / month';
-    document.getElementById('sv-agents').textContent    = (deals*2)+' agent'+((deals*2)>1?'s':'');
-    document.getElementById('sv-type').textContent      = answers.type||'—';
-    document.getElementById('sv-timeline').textContent  = answers.timeline||'—';
-  }
-
-  function openCalendly() {
-    track(true);
-    window.open('https://calendly.com/quadkeyva-info/30min','_blank');
-  }
+function openCalendly() {
+  track(true);
+  window.open('https://calendly.com/quadkeyva-info/30min','_blank');
+}
 </script>
 </body>
 </html>
