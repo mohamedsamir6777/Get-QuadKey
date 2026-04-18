@@ -215,10 +215,50 @@ html,body{min-height:100%;background:var(--bg);font-family:'Inter',sans-serif;di
 
 </div>
 <script>
-  const answers = {dealCount:1, dealLabel:'1 deal / month'};
-  let currentStep = 0;
-  const history = [];
-  const totalDots = 7;
+  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbzGpx56mfgvOmReIQrgGGXBl6wcFmH6aftPnn-oCYJgPKH-ZS6bckc_xGLlqZDL-xeb/exec';
+
+  // Generate a unique session ID for this visitor
+  var sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+  var startedAt = new Date().toLocaleString();
+
+  var answers = {dealCount:1, dealLabel:'1 deal / month'};
+  var currentStep = 0;
+  var history = [];
+  var totalDots = 7;
+
+  var STEP_LABELS = {
+    0: 'Step 1 — Challenge',
+    1: 'Step 2 — State',
+    2: 'Step 3 — Deals',
+    3: 'Step 4 — Lead Type',
+    4: 'Step 5 — Call Samples',
+    5: 'Step 6 — Timeline',
+    6: 'Step 7 — Booking'
+  };
+
+  function track(completed) {
+    var deals = answers.dealCount || 1;
+    var payload = {
+      sessionId:  sessionId,
+      started:    startedAt,
+      challenge:  answers.challenge  || '',
+      state:      answers.state      || '',
+      deals:      answers.dealLabel  || '',
+      type:       answers.type       || '',
+      timeline:   answers.timeline   || '',
+      lastStep:   STEP_LABELS[currentStep] || ('Step ' + (currentStep + 1)),
+      completed:  !!completed
+    };
+    fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    }).catch(function(){});
+  }
+
+  // Fire first track when page loads (so even people who don't click appear)
+  window.addEventListener('load', function(){ track(false); });
 
   function selectOpt(el, key, val, next) {
     el.closest('.options').querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected')});
@@ -242,7 +282,8 @@ html,body{min-height:100%;background:var(--bg);font-family:'Inter',sans-serif;di
     currentStep = to;
     updateProgress();
     window.scrollTo({top:0,behavior:'smooth'});
-    if (to===6) fillSummary();
+    track(to === 6);
+    if (to === 6) fillSummary();
   }
 
   function goBack() {
@@ -268,15 +309,16 @@ html,body{min-height:100%;background:var(--bg);font-family:'Inter',sans-serif;di
   function fillSummary() {
     var deals = answers.dealCount || 1;
     document.getElementById('sv-challenge').textContent = answers.challenge||'—';
-    document.getElementById('sv-state').textContent = answers.state||'—';
-    document.getElementById('sv-deals').textContent = answers.dealLabel||'—';
-    document.getElementById('sv-leads').textContent = (deals*50)+' leads / month';
-    document.getElementById('sv-agents').textContent = (deals*2)+' agent'+((deals*2)>1?'s':'');
-    document.getElementById('sv-type').textContent = answers.type||'—';
-    document.getElementById('sv-timeline').textContent = answers.timeline||'—';
+    document.getElementById('sv-state').textContent     = answers.state||'—';
+    document.getElementById('sv-deals').textContent     = answers.dealLabel||'—';
+    document.getElementById('sv-leads').textContent     = (deals*50)+' leads / month';
+    document.getElementById('sv-agents').textContent    = (deals*2)+' agent'+((deals*2)>1?'s':'');
+    document.getElementById('sv-type').textContent      = answers.type||'—';
+    document.getElementById('sv-timeline').textContent  = answers.timeline||'—';
   }
 
   function openCalendly() {
+    track(true);
     window.open('https://calendly.com/quadkeyva-info/30min','_blank');
   }
 </script>
